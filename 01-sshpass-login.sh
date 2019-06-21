@@ -37,11 +37,11 @@ then
     fi
 fi
 
-printf "%s" "Waiting for $ip "
+printf "%s" "Waiting for $ip ... "
 #while ! timeout 0.5 ping -c 1 -n "$1" &> /dev/null
 while ! ping -c 1 -n -w 1 "$ip" &> /dev/null
 do
-    printf "%d%c" $((loop++)) "."
+    printf "%d%c" $((++loop)) "."
 done
 printf "\n%s\n" "$ip is online"
 
