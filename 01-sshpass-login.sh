@@ -37,13 +37,27 @@ then
     fi
 fi
 
+counter()
+{
+tput sc
+count=0;
+while :;
+do
+    sleep 1
+    tput rc
+    tput ed
+    ((++loop))
+    printf "%s" $((count++))s;
+    [ $loop == 300 ] && echo -e "\ntried 300 times, ping failed, exit" && exit
+done
+}
+
 trap "printf \"\n%s\n\" exit ;exit" INT
 printf "%s" "Waiting for $ip ... "
 #while ! timeout 0.5 ping -c 1 -n "$1" &> /dev/null
 while ! ping -c 1 -n -w 1 "$ip" &> /dev/null
 do
-    printf "%d%c" $((++loop)) "."
-    [ $loop == 300 ] && echo -e "\ntried 300 times, ping failed, exit" && exit
+    counter
 done
 printf "\n%s\n" "$ip is online"
 
