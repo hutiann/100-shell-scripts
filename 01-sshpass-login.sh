@@ -8,6 +8,8 @@ loop=0
 OSDIST=$(lsb_release -i |awk -F: '{print tolower($2)}' | tr -d ' \t')
 SSHPASS=sshpass
 
+trap "printf \"\n%s\n\" exit ;exit" INT
+
 if [[ $OSDIST == "centos" ]]; then
     if [[ ! -x "$(command -v $SSHPASS)" ]]; then
         sudo yum install $SSHPASS 
@@ -52,7 +54,6 @@ do
 done
 }
 
-trap "printf \"\n%s\n\" exit ;exit" INT
 printf "%s" "Waiting for $ip ... "
 #while ! timeout 0.5 ping -c 1 -n "$1" &> /dev/null
 while ! ping -c 1 -n -w 1 "$ip" &> /dev/null
