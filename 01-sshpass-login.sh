@@ -37,13 +37,15 @@ then
     fi
 fi
 
+trap "printf \"\n%s\n\" exit ;exit" INT
 printf "%s" "Waiting for $ip ... "
 #while ! timeout 0.5 ping -c 1 -n "$1" &> /dev/null
 while ! ping -c 1 -n -w 1 "$ip" &> /dev/null
 do
     printf "%d%c" $((++loop)) "."
+    [ $loop == 300 ] && echo -e "\ntried 300 times, ping failed, exit" && exit
 done
 printf "\n%s\n" "$ip is online"
 
 echo "do command \"$SSHPASS -p $passwd ssh $2@$ip\""
-$SSHPASS -p "$passwd" ssh "$username"@"$ip"
+$SSHPASS -p "$passwd" ssh "$username"@"$ip" || exit
