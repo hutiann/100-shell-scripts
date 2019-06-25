@@ -1,18 +1,10 @@
 #!/usr/bin/env bash
 
-
 # Runtime Environment
 set -o errexit
 set -o nounset
 set -o pipefail
 # set -o xtrace
-
-
-
-
-# ======================================
-# Requirements
-# ======================================
 
 # Check on Requirements
 function require  {
@@ -22,13 +14,6 @@ function require  {
 require mktemp
 require xargs
 require curl
-
-
-
-# ======================================
-# Configuration
-# ======================================
-
 
 # The default HTTP method
 declare http_method="HEAD"
@@ -50,11 +35,6 @@ readonly OPTIONS_LIST="v"
 # Keeps anything that does not look like an option,
 # and finally should contain the URL and URI files.
 declare -a remote_files_array
-
-
-# ======================================
-# Print short help if no arguments
-# ======================================
 
 if [ "$#" -eq 0 ]; then
 	echo;
@@ -79,18 +59,12 @@ if [ "$#" -eq 0 ]; then
 	exit 1
 fi
 
-
-# ======================================
-# Output and formatting functions
-# ======================================
-
 # Formatting stuff
 readonly C_RED='\033[0;31m'
 readonly C_GREEN='\033[0;32m'
 readonly C_ORANGE=$(tput setaf 3)
 readonly C_BLUE='\033[1;34m'
 readonly NC='\033[0m' # No Color
-
 
 # Error message and error exit, redirecting stdout to stderr
 function e_error {
@@ -109,12 +83,6 @@ function e_warning {
 function e_success () {
 	echo -e "${C_GREEN}✔ Success:${NC} ${*-}"
 }
-
-
-
-
-
-
 
 # ======================================
 #  Options parsing, with sections
@@ -149,7 +117,6 @@ _require_argument() {
 			e_error "$(printf "Option requires a argument: %s\n" "${_option}")"
 		fi
 }
-
 
 # ---------------------------------------
 # Normalize options
@@ -209,9 +176,6 @@ done
 set -- "${options[@]:-}"
 unset options
 
-
-
-
 # ---------------------------------------
 # Parse Options
 # ---------------------------------------
@@ -260,10 +224,6 @@ do
 
 done
 
-
-
-
-
 # ======================================
 # Business
 # ======================================
@@ -294,8 +254,6 @@ for base_url in `cat ${urls_file}`; do
 	done
 done
 
-
-
 # The Healthcheck: every line from buildfile
 echo;
 e_info "Health-check URLs in file '${concatenation_list}' using '${http_method}'"
@@ -312,4 +270,3 @@ fi
 echo;
 e_success "Finished.";
 echo;
-

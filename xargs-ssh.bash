@@ -7,7 +7,7 @@
 scriptmode=0
 command="uptime"
 input=""
-serverlist=""
+serverlist="10.10.0.61;10.10.0.96;10.10.1.177"
 
 # Parse command line options
 while getopts "hsf:c:" flag; do
