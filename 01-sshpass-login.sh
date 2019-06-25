@@ -26,6 +26,25 @@ if [[ ! -x "$(command -v $SSHPASS)" ]]; then
     exit 1
 fi
 
+checkUtils() {
+    local -r msg="not found. Please make sure this is installed and in PATH."
+
+    command -v awk >/dev/null 2>&1 || { echo >&2 "awk ${msg}"; exit 1; }
+    command -v basename >/dev/null 2>&1 || { echo >&2 "basename ${msg}"; exit 1; }
+    command -v cat >/dev/null 2>&1 || { echo >&2 "cat ${msg}"; exit 1; }
+    command -v column >/dev/null 2>&1 || { echo >&2 "column ${msg}"; exit 1; }
+    command -v echo >/dev/null 2>&1 || { echo >&2 "echo ${msg}"; exit 1; }
+    command -v git >/dev/null 2>&1 || { echo >&2 "git ${msg}"; exit 1; }
+    command -v grep >/dev/null 2>&1 || { echo >&2 "grep ${msg}"; exit 1; }
+    command -v head >/dev/null 2>&1 || { echo >&2 "head ${msg}"; exit 1; }
+    command -v seq >/dev/null 2>&1 || { echo >&2 "seq ${msg}"; exit 1; }
+    command -v sort >/dev/null 2>&1 || { echo >&2 "sort ${msg}"; exit 1; }
+    command -v tput >/dev/null 2>&1 || { echo >&2 "tput ${msg}"; exit 1; }
+    command -v tr >/dev/null 2>&1 || { echo >&2 "tr ${msg}"; exit 1; }
+    command -v uniq >/dev/null 2>&1 || { echo >&2 "uniq ${msg}"; exit 1; }
+    command -v wc >/dev/null 2>&1 || { echo >&2 "wc ${msg}"; exit 1; }
+}
+
 if [ $# != 3 ]
 then
     echo "Usage: $0 [ip] [username] [passwd]"
@@ -60,6 +79,7 @@ do
 done
 }
 
+checkUtils
 printf "%s" "Waiting for $ip ... "
 #while ! timeout 0.5 ping -c 1 -n "$1" &> /dev/null
 counter
