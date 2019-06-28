@@ -3,6 +3,8 @@
 # how to assign a array via $()
 # temp=( $(find $1 -maxdepth 1 -type f) ) 
 # for i in "${temp[@]}" 
+#a=(foo bar "foo 1" "bar two")  #create an array
+#b=("${a[@]}")                  #copy the array in another one 
 
 VERSION="buster"
 TEST_NETCONNECT_HOST="www.baidu.com"
