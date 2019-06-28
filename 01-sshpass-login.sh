@@ -86,4 +86,4 @@ counter
 printf "\n%s\n" "$ip is online"
 
 echo "do command \"$SSHPASS -p $passwd ssh $2@$ip\""
-$SSHPASS -p "$passwd" ssh  -X "$username"@"$ip" || exit
+$SSHPASS -p "$passwd" ssh -X "$username"@"$ip" || exit
