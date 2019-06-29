@@ -7,7 +7,7 @@
 scriptmode=0
 command="uptime"
 input=""
-serverlist="10.10.0.61;10.10.0.96;10.10.1.177"
+#serverlist="server"
 
 # Parse command line options
 while getopts "hsf:c:" flag; do
@@ -35,6 +35,7 @@ if [[ -z "$serverlist" ]]; then
   tempfile=$(mktemp)
   while read data; do
     echo $data >> $tempfile
+    break;
   done
   serverlist=$tempfile
 fi
