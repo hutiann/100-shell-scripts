@@ -16,17 +16,17 @@ FLAVOR=$(echo "$FLAVOR" | tr -d '"')
 
 DEBIAN_MIRRORS=(\
     http://mirrors.ustc.edu.cn/debianu/ \
-    https://mirrors.tuna.tsinghua.edu.cn/debian/ \
+    http://mirrors.tuna.tsinghua.edu.cn/debian/ \
     http://mirrors.163.com/debian/ \
-    https://mirrors.aliyun.com/debian/ \
+    http://mirrors.aliyun.com/debian/ \
 )
 
 UBUNTU_MIRRORS=(\
     http://mirrors.163.com/ubuntu/ \
     http://mirrors.aliyun.com/ubuntu/ \
     http://mirrors.ustc.edu.cn/ubuntu/ \
-    https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ \
-    https://mirrors.aliyun.com/ubuntu/ \
+    http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ \
+    http://mirrors.aliyun.com/ubuntu/ \
 )
 
 function get_ping_speed()    #return average ping $1 time

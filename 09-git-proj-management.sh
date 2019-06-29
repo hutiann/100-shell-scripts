@@ -85,7 +85,6 @@ git_pro_create()
     git config --global http.lowSpeedTime 999999
     git config --list
     xargs -I{} -P 0 git clone -q --depth 1 {} < "$git_repo_file"
-    #xargs -I{} -P 0 git clone --depth 1 {} < "$git_repo_file"
     end=$(date +%s)
     diffsec=$(( end - start ))
     echo | awk -v D=$diffsec '{printf "Eplased time: %02dh:%02dm:%02ds\n",D/(60*60),D%(60*60)/60,D%60}'
