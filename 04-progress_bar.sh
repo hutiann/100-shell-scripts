@@ -11,13 +11,19 @@ target=$2
 (pv -n $iso | dd of=${target} bs=1M conv=notrunc,noerror oflag=sync) 2>&1 | whiptail --gauge " $(date) Copying files to SD in ${target}, please wait..." 10 70 0
 }
 
-
 tar_whiptail ()
 {
 file=$1
 target=$2
 (pv -n $file | tar xzf - -C $target ) \
 2>&1 | whiptail --title "untar file" --gauge "Extracting file..." 6 50 0
+}
+
+tar_test ()
+{
+#Destination directory
+DEST="/tmp/test.$$"
+tar_whiptail ./live-build.tar.gz $DEST
 }
 
 cp_whiptail()
@@ -57,21 +63,14 @@ EOF
 
 cp_test()
 {
-#DIRS=(/bin/* /etc/* )
-DIRS="/bin/*"
+DIRS=(/bin/* /etc/* )
+#DIRS="/bin/*"
 # Destination directory
 DEST="/tmp/test.$$"
 # Create $DEST if does not exits
 [ ! -d $DEST ] && mkdir -p $DEST
 cp_whiptail $DIRS $DEST
 /bin/rm -rf $DEST
-}
-
-tar_test ()
-{
-#Destination directory
-DEST="/tmp/test.$$"
-tar_whiptail ./live-build.tar.gz $DEST
 }
 
 whiptail_demo()
@@ -98,7 +97,7 @@ done
 ) | whiptail --title "Copy file" --gauge "yangye" 10 75 0
 }
 
-whiptail_demo
-#cp_test
+#whiptail_demo
+cp_test
 #tar_test
 
