@@ -1,6 +1,7 @@
 #!/bin/bash
 
 debug_mode='0'
+ret=1
 
 DEBUG()
 {
@@ -80,9 +81,40 @@ done
 }
 #repeat() { while :; do $@ && return; sleep 10;one }
 
+bashdb () {
+
+    #bash --debugger xx.sh
+    #bashdb xx.sh
+
+    # n 执行下一条语句，遇到函数，不进入函数里面执行，将函数当作黑盒
+    # s n 单步执行n次，遇到函数进入函数里面
+    # b 行号n 在行号n处设置断点
+    # d 行号n 撤销行号n处的断点
+    # c 行号n 一直执行到行号n处
+    # R 重新启动
+    # Finish 执行到程序最后
+    # cond n expr 条件断点
+
+    if ! program_exists bashdb; then
+        wget https://netix.dl.sourceforge.net/project/bashdb/bashdb/4.4-0.94/bashdb-4.4-0.94.tar.gz
+        tar -xvf bashdb-*.tar.gz
+        cd bashdb-* || exit
+        ./configure
+        make
+        sudo make install
+    fi
+
+    ret=0
+    success "bashdb installed"
+}
+
+main () {
 for i in {1..10}
 do
     DEBUG echo $i
 done
 
-exists sl || echo "Please install sl." <&2
+bashdb
+}
+
+main "$@"
