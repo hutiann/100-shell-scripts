@@ -41,11 +41,6 @@ program_exists() {
     return 0
 }
 
-exists() {
-[[ -x $(type -P "$1" 2>/dev/null) ]];
-[[ -x $(command -v "$1" 2>/dev/null) ]];
-}
-
 program_must_exist() {
     program_exists $1
 
@@ -53,6 +48,24 @@ program_must_exist() {
     if [ "$?" -ne 0 ]; then
         error "You must have '$1' installed to continue."
     fi
+}
+
+exists() {
+[[ -x $(type -P "$1" 2>/dev/null) ]];
+[[ -x $(command -v "$1" 2>/dev/null) ]];
+}
+
+timer()
+{
+tput sc
+count=0;
+while :;
+do
+    sleep 1
+    tput rc
+    tput ed
+    echo -n "Time Elapsed : $((count++))"s;
+done
 }
 
 variable_set() {
