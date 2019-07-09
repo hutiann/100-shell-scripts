@@ -12,14 +12,14 @@ get_char(){
     stty "$SAVEDSTTY"
 }
 
-wait() {
+wait_char() {
     read -rp "Press any key to continue!" char
 }
 
-find . -maxdepth 1 -name "*.sh" | xargs -I{} -P 0 echo {} && wait
+find . -maxdepth 1 -name "*.sh" | xargs -I{} -P 0 echo {} && wait_char
 
-find . -name "*.sh" | xargs -I{} -P 0 cp {} /tmp && wait
+find . -name "*.sh" | xargs -I{} -P 0 cp {} /tmp && wait_char
 
-find . -maxdepth 1  -name "*.sh" | xargs -I{} -P 0 sh -c "echo $$ " && wait
+find . -maxdepth 1  -name "*.sh" | xargs -I{} -P 0 sh -c "echo $$ " && wait_char
 
 xargs -I{} -P 0 git clone -q --depth 1 {} < "$git_repo_file"
