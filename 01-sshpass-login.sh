@@ -85,5 +85,5 @@ printf "%s" "Waiting for $ip ... "
 counter
 printf "\n%s\n" "$ip is online"
 
-echo "do command \"$SSHPASS -p $passwd ssh $2@$ip\""
-$SSHPASS -p "$passwd" ssh -X "$username"@"$ip" || exit
+echo "do command \"$SSHPASS -p $passwd ssh -XY $2@$ip\""
+$SSHPASS -p "$passwd" ssh -XY "$username"@"$ip" || exit
