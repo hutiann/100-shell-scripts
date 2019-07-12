@@ -68,43 +68,25 @@ debug() {
     fi
 }
 
-program_exists() {
-    local ret='0'
-    command -v $1 >/dev/null 2>&1 || { local ret='1'; }
-
-    # fail on non-zero return value
-    if [ "$ret" -ne 0 ]; then
-        return 1
-    fi
-
-    return 0
-}
-
-program_must_exist() {
-    program_exists $1
-
-    # throw error on non-zero return value
-    if [ "$?" -ne 0 ]; then
-        error "You must have '$1' installed to continue."
-    fi
-}
-
-exists() {
-[[ -x $(type -P "$1" 2>/dev/null) ]];
-[[ -x $(command -v "$1" 2>/dev/null) ]];
+kill_self()
+{
+    ping www.163.com &
+    pid="$!"
+    echo "pid is $!" && sleep 12
+    kill -9 $pid
 }
 
 timer()
 {
-tput sc
-count=0;
-while :;
-do
-    sleep 1
-    tput rc
-    tput ed
-    echo -n "Time Elapsed : $((count++))"s;
-done
+    tput sc
+    count=0;
+    while :;
+    do
+        sleep 1
+        tput rc
+        tput ed
+        echo -n "Time Elapsed : $((count++))"s;
+    done
 }
 
 variable_set() {
@@ -115,7 +97,6 @@ variable_set() {
 
 warn() {
     echo "$1" >&2
-
 }
 
 die() {
@@ -125,11 +106,11 @@ die() {
 
 repeat()
 {
-while :;
-do
-    "$@" && return
-    sleep 1
-done
+    while :;
+    do
+        "$@" && return
+        sleep 1
+    done
 }
 #repeat() { while :; do $@ && return; sleep 10;one }
 
@@ -160,13 +141,39 @@ bashdb () {
     success "bashdb installed"
 }
 
-main () {
-for i in {1..10}
-do
-    DEBUG echo $i
-done
+program_exists() {
+    local ret='0'
+    command -v $1 >/dev/null 2>&1 || { local ret='1'; }
 
-bashdb
+    # fail on non-zero return value
+    if [ "$ret" -ne 0 ]; then
+        return 1
+    fi
+
+    return 0
+}
+
+program_must_exist() {
+    program_exists $1
+
+    # throw error on non-zero return value
+    if [ "$?" -ne 0 ]; then
+        error "You must have '$1' installed to continue."
+    fi
+}
+
+exists() {
+    [[ -x $(type -P "$1" 2>/dev/null) ]];
+    [[ -x $(command -v "$1" 2>/dev/null) ]];
+}
+
+main () {
+    for i in {1..10}
+    do
+        DEBUG echo $i
+    done
+    
+    bashdb
 }
 
 main "$@"
