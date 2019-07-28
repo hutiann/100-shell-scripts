@@ -6,6 +6,17 @@ set -o nounset
 set -o pipefail
 # set -o xtrace
 
+all_num=10
+thread_num=5
+
+https://www.cnblogs.com/f-ck-need-u/p/7048359.html
+
+a=$(date +%H%M%S)
+seq 1 ${all_num} | xargs -n 1 -P ${thread_num} bash -c "sleep 10"
+b=$(date +%H%M%S)
+echo -e "startTime:\t$a"
+echo -e "endTime:\t$b"
+exit
 # Check on Requirements
 function require  {
 	command -v "${1}" >/dev/null 2>&1 || e_error "$(printf "Program '%s' required, but it's not installed" "${1}")"
