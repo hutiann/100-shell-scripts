@@ -25,6 +25,7 @@ msg() {
 echo "============================= linux dd ==========================================="
 msg dumpe2fs $partition
 msg tune2fs -l $partition
+msg hdparm -I $partition
 
 echo "Measuring single-threaded, sequential-write I/O Performance via dd "
 msg sudo hdparm -W1 $partition
