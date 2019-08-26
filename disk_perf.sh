@@ -1,5 +1,5 @@
 #!/bin/bash -e
-partition=/dev/sda2
+partition=/dev/sdd2
 t_size=10m;
 partition_path=$(mount |grep "/dev/sda2" | awk '{print $3}') 
 
@@ -10,11 +10,10 @@ DEBUG() {
 cd $partition_path
 
 echo "============================= unix dd ==========================================="
-echo "Measuring single-threaded, sequential-write I/O Performance via dd "
-time sh -c "dd if=/dev/zero of=testfile bs=100M count=1 && sync"
-time sh -c "dd if=/dev/zero of=testfile bs=512 count=1000 && sync"
-echo "Measuring sequential I/O Read Performance via dd "
-time sh -c "dd if=testfile of=/dev/null bs=1M"
+echo "Measuring single-threaded, sequential-write I/O Performance via dd (100MB)"
+for i in {1 2 3 4}; do time sh -c "dd if=/dev/zero of=testfile bs=104857600 count=1 && sync";done
+echo "Measuring sequential I/O Read Performance via dd (100MB)"
+for i in {1 2 3 4}; do time sh -c "dd if=testfile of=/dev/null";done
 rm -rf testfile
 
 msg() {
