@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
   if(!file_name)
     usage();
   printf("#loops: %d, version: %s\n", max_loops, BON_VERSION);
-  printf("#block K/s time\n");
+  printf("#block  MB/s  time\n");
 
   int i;
   char *buf = new char[meg];
@@ -182,7 +182,7 @@ void printavg(int position, double avg, int block_size)
   if(avg < MinTime)
     printf("#%d ++++ %f \n", position * block_size, avg);
   else
-    printf("%d %d %f\n", position * block_size, int(num_k / avg), avg);
+    printf("%-5d %6.3f %6.3f\n", position * block_size, (num_k / avg / 1024), avg);
 }
 
 int compar(const void *a, const void *b)
