@@ -34,10 +34,11 @@ void usage()
 {
   printf("Usage: zcav [-b block-size] [-c count]\n"
          "            [-u uid-to-use:gid-to-use] [-g gid-to-use]\n"
-         "            [-f] file-name\n"
+         "            -f file-name\n"
          "File name of \"-\" means standard input\n"
          "Count is the number of times to read the data (default 1).\n"
-         "Version: " BON_VERSION "\n");
+         "Version: " BON_VERSION "\n"
+         "Example: zcav -f /dev/sd0\n");
   exit(1);
 }
 
