@@ -3,11 +3,9 @@
 set -e
 
 ############################  SETUP PARAMETERS
-app_name='image_gen'
 debug_mode='0'
 
-IMG="$(date +%F).img"
-FAT="${BOARD}"
+IMG="$(date +%F-%T).img"
 ROOTFS="rootfs"
 BOOT_DIM=400
 FREELO="$( losetup -f)"
@@ -86,7 +84,6 @@ lodetach () {
 calc_space () {
     local tar_file="$1"
 
-    [ -e ${ROOTFS} ] && rm -fr ${ROOTFS}
     mkdir ${ROOTFS} && tar -zxf "$tar_file" -C ${ROOTFS}
 
     DU_DIM="$( du -ms ${ROOTFS} | cut -f1)"
@@ -123,23 +120,24 @@ boot_cp () {
         umount binary.tmp
 
         ret="$?"
-        success "Copying $1 $2 $3 $4 to SD boot partition"
+        success "Copying $1 $2 $3 $4 to SD boot partition(fat32)"
         debug
    fi
     }
 
 rootfs_cp () {
      mount ${FREELO}p2 binary.tmp
-     cp -af ${ROOTFS}/* binary.tmp
+     tar -xzf $1 -C binary.tmp
 
-    sync && sleep 1
+    sync && sync
+    sleep 1
     umount binary.tmp
     rmdir binary.tmp
-    sync
+    sync && sync
     lodetach ${FREELO}
 
     ret="$?"
-    success "Copying ROOTFS contents to SD rootfs partition"
+    success "Copying ROOTFS contents to SD rootfs partition(ext4)"
     debug
 }
 
@@ -164,24 +162,25 @@ usage ()
 }
 
 ############################ MAIN()
+
 file_must_exists "BOOT.BIN"
 file_must_exists "dpu.xclbin"
 file_must_exists "image.ub"
-file_must_exists "rootfs.tar.gz"
 file_must_exists "*_base.hwh"
+file_must_exists "rootfs.tar.gz"
 
-calc_space      "rootfs.tar.gz"
+calc_space       "rootfs.tar.gz"
 
 mkpart_mkfs
 
-boot_cp         "BOOT.BIN" \
-                "dpu.xclbin" \
-                "image.ub" \
-                "*_base.hwh"
+boot_cp          "BOOT.BIN" \
+                 "dpu.xclbin" \
+                 "image.ub" \
+                 "*_base.hwh"
 
-rootfs_cp
+rootfs_cp        "rootfs.tar.gz"
 
 finalize
 
-msg             "\nThanks for installing $app_name."
-msg             "© `date +%Y` http://vim.spf13.com/"
+msg             "\nSD-card image $IMG.zip done"
+msg             "© `date +%Y`"
